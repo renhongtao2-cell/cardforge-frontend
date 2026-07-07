@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 
 function Pricing() {
   const [loading, setLoading] = useState(null)
@@ -7,7 +7,7 @@ function Pricing() {
   const tiers = [
     {
       name: 'Free',
-      price: '\',
+      price: '',
       period: 'forever',
       features: ['50 cards/month', 'Standard quality', 'Basic colors', 'PNG download'],
       cta: 'Get Started',
@@ -16,7 +16,7 @@ function Pricing() {
     },
     {
       name: 'Pro',
-      price: '\.99',
+      price: '.99',
       period: '/month',
       features: ['1,000 cards/month', 'HD quality', 'Custom branding', 'API access', 'Batch generation', 'No watermark'],
       cta: 'Upgrade to Pro',
@@ -25,7 +25,7 @@ function Pricing() {
     },
     {
       name: 'Team',
-      price: '\.99',
+      price: '.99',
       period: '/month',
       features: ['Unlimited cards', 'Max quality', 'Brand kit', 'Priority support', '5 team members', 'Custom domain'],
       cta: 'Contact Sales',
@@ -45,13 +45,13 @@ function Pricing() {
     setError('')
     
     try {
-      const userId = localStorage.getItem('cardforge_user_id') || \user_\\
+      const userId = localStorage.getItem('cardforge_user_id') || 'user_' + Date.now()
       if (!localStorage.getItem('cardforge_user_id')) {
         localStorage.setItem('cardforge_user_id', userId)
       }
       
       console.log('Creating checkout for tier:', tier, 'user:', userId)
-      const res = await fetch(\/api/create-checkout?user_id=\&tier=\\, {
+      const res = await fetch('/api/create-checkout?user_id=' + userId + '&tier=' + tier, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -73,7 +73,7 @@ function Pricing() {
   }
 
   return (
-    <section id="pricing" style={{ padding: '4rem 2rem' }}>
+    <section id=\"pricing\" style={{ padding: '4rem 2rem' }}>
       <h2 style={{ textAlign: 'center', fontSize: '2.2rem', fontWeight: 800, marginBottom: '1rem' }}>
         Simple, transparent pricing
       </h2>
@@ -114,7 +114,7 @@ function Pricing() {
             <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem', textAlign: 'left' }}>
               {tier.features.map((feat, j) => (
                 <li key={j} style={{ padding: '0.5rem 0', color: '#a0a0b8', fontSize: '0.95rem' }}>
-                  ✓ {feat}
+                  âœ“ {feat}
                 </li>
               ))}
             </ul>
