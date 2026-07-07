@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 
 function Header() {
   const [loading, setLoading] = useState(false)
@@ -6,13 +6,13 @@ function Header() {
   const handleUpgrade = async () => {
     setLoading(true)
     try {
-      const userId = localStorage.getItem('cardforge_user_id') || \user_\\
+      const userId = localStorage.getItem('cardforge_user_id') || 'user_' + Date.now()
       if (!localStorage.getItem('cardforge_user_id')) {
         localStorage.setItem('cardforge_user_id', userId)
       }
       
       console.log('Creating checkout for user:', userId)
-      const res = await fetch(\/api/create-checkout?user_id=\&tier=pro\, {
+      const res = await fetch('/api/create-checkout?user_id=' + userId + '&tier=pro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
