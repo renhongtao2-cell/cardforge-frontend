@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 
 function CardGenerator({ url, onReset }) {
   const [loading, setLoading] = useState(false)
@@ -14,7 +14,7 @@ function CardGenerator({ url, onReset }) {
   const tier = 'free'
 
   useEffect(() => {
-    fetch(`/api/usage?user_id=${userId}&tier=${tier}`)
+    fetch('https://cardforge-backend-3.onrender.com/api/usage?user_id=${userId}&tier=${tier}`)
       .then(res => res.json())
       .then(data => setUsage(data))
       .catch(() => {})
@@ -26,7 +26,7 @@ function CardGenerator({ url, onReset }) {
     setCardUrl('')
 
     try {
-      const metaRes = await fetch(`/api/cards/metadata?url=${encodeURIComponent(url)}`)
+      const metaRes = await fetch('https://cardforge-backend-3.onrender.com/api/cards/metadata?url=${encodeURIComponent(url)}`)
       if (!metaRes.ok) throw new Error('Failed to fetch URL metadata')
       const meta = await metaRes.json()
       setMetadata(meta)
@@ -37,7 +37,7 @@ function CardGenerator({ url, onReset }) {
       if (customTitle) params.set('custom_title', customTitle)
       if (customDesc) params.set('custom_description', customDesc)
 
-      const cardRes = await fetch(`/api/cards/generate?${params}`, {
+      const cardRes = await fetch('https://cardforge-backend-3.onrender.com/api/cards/generate?${params}`, {
         headers: {
           'X-User-ID': userId,
           'X-Tier': tier,
@@ -53,7 +53,7 @@ function CardGenerator({ url, onReset }) {
       const blobUrl = URL.createObjectURL(blob)
       setCardUrl(blobUrl)
 
-      fetch(`/api/consume?user_id=${userId}&tier=${tier}`, { method: 'POST' })
+      fetch('https://cardforge-backend-3.onrender.com/api/consume?user_id=${userId}&tier=${tier}`, { method: 'POST' })
         .then(res => res.json())
         .then(data => setUsage(data))
         .catch(() => {})
@@ -153,3 +153,4 @@ function CardGenerator({ url, onReset }) {
 }
 
 export default CardGenerator
+
