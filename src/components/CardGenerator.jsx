@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+const BACKEND = 'https://cardforge-backend-3.onrender.com'
+
 function CardGenerator({ url, onReset }) {
   const [loading, setLoading] = useState(false)
   const [cardUrl, setCardUrl] = useState('')
@@ -10,11 +12,11 @@ function CardGenerator({ url, onReset }) {
   const [error, setError] = useState('')
   const [metadata, setMetadata] = useState(null)
   const [usage, setUsage] = useState(null)
-  const userId = `user_${Math.random().toString(36).substr(2, 9)}`
+  const userId = user_
   const tier = 'free'
 
   useEffect(() => {
-    fetch(`/api/usage?user_id=${userId}&tier=${tier}`)
+    fetch(${BACKEND}/api/usage?user_id=&tier=)
       .then(res => res.json())
       .then(data => setUsage(data))
       .catch(() => {})
@@ -26,7 +28,7 @@ function CardGenerator({ url, onReset }) {
     setCardUrl('')
 
     try {
-      const metaRes = await fetch(`/api/cards/metadata?url=${encodeURIComponent(url)}`)
+      const metaRes = await fetch(${BACKEND}/api/cards/metadata?url=)
       if (!metaRes.ok) throw new Error('Failed to fetch URL metadata')
       const meta = await metaRes.json()
       setMetadata(meta)
@@ -37,7 +39,7 @@ function CardGenerator({ url, onReset }) {
       if (customTitle) params.set('custom_title', customTitle)
       if (customDesc) params.set('custom_description', customDesc)
 
-      const cardRes = await fetch(`/api/cards/generate?${params}`, {
+      const cardRes = await fetch(${BACKEND}/api/cards/generate?, {
         headers: {
           'X-User-ID': userId,
           'X-Tier': tier,
@@ -53,7 +55,7 @@ function CardGenerator({ url, onReset }) {
       const blobUrl = URL.createObjectURL(blob)
       setCardUrl(blobUrl)
 
-      fetch(`/api/consume?user_id=${userId}&tier=${tier}`, { method: 'POST' })
+      fetch(${BACKEND}/api/consume?user_id=&tier=, { method: 'POST' })
         .then(res => res.json())
         .then(data => setUsage(data))
         .catch(() => {})
@@ -68,7 +70,7 @@ function CardGenerator({ url, onReset }) {
     if (!cardUrl) return
     const a = document.createElement('a')
     a.href = cardUrl
-    a.download = `cardforge_${metadata?.domain || 'card'}.png`
+    a.download = cardforge_.png
     a.click()
   }
 

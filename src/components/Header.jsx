@@ -1,8 +1,10 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
+
+const BACKEND = 'https://cardforge-backend-3.onrender.com'
 
 function Header() {
   const [loading, setLoading] = useState(false)
-  
+
   const handleUpgrade = async () => {
     setLoading(true)
     try {
@@ -10,16 +12,16 @@ function Header() {
       if (!localStorage.getItem('cardforge_user_id')) {
         localStorage.setItem('cardforge_user_id', userId)
       }
-      
+
       console.log('Creating checkout for user:', userId)
-      const res = await fetch('/api/create-checkout?user_id=' + userId + '&tier=pro', {
+      const res = await fetch(BACKEND + '/api/create-checkout?user_id=' + userId + '&tier=pro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
       console.log('Response status:', res.status)
       const data = await res.json()
       console.log('Response data:', data)
-      
+
       if (data.checkout_url) {
         window.location.href = data.checkout_url
       } else {
@@ -43,7 +45,7 @@ function Header() {
       margin: '0 auto',
     }}>
       <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#e94560', letterSpacing: '-0.5px' }}>
-        ⚡ CardForge
+        \u26a1 CardForge
       </div>
       <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
         <a href="#features" style={{ color: '#a0a0b8', textDecoration: 'none', fontSize: '0.95rem' }}>Features</a>

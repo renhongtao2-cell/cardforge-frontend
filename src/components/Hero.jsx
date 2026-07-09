@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const BACKEND = 'https://cardforge-backend-3.onrender.com'
+
 function Hero({ onGenerate }) {
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
@@ -7,18 +9,18 @@ function Hero({ onGenerate }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
+
     if (!url.trim()) {
       setError('Please enter a URL')
       return
     }
-    
+
     if (!url.startsWith('http')) {
       setUrl('https://' + url)
     }
-    
+
     try {
-      const response = await fetch(`/api/cards/metadata?url=${encodeURIComponent(url)}`)
+      const response = await fetch(BACKEND + '/api/cards/metadata?url=' + encodeURIComponent(url))
       if (!response.ok) {
         setError('Could not fetch metadata. Please check the URL.')
         return
@@ -48,7 +50,7 @@ function Hero({ onGenerate }) {
       }}>
         Free URL Preview Card Generator
       </div>
-      
+
       <h1 style={{
         fontSize: '3.5rem',
         fontWeight: 800,
@@ -59,7 +61,7 @@ function Hero({ onGenerate }) {
         Create stunning<br />
         <span style={{ color: '#e94560' }}>preview cards</span> in seconds
       </h1>
-      
+
       <p style={{
         fontSize: '1.2rem',
         color: '#a0a0b8',
@@ -70,7 +72,7 @@ function Hero({ onGenerate }) {
         Transform any URL into a beautiful, shareable preview card. 
         Perfect for social media, newsletters, and marketing.
       </p>
-      
+
       <form onSubmit={handleSubmit} style={{
         display: 'flex',
         gap: '0.75rem',
@@ -114,11 +116,11 @@ function Hero({ onGenerate }) {
           Generate Card
         </button>
       </form>
-      
+
       {error && (
         <p style={{ color: '#e94560', marginTop: '1rem', fontSize: '0.95rem' }}>{error}</p>
       )}
-      
+
       <div style={{
         marginTop: '3rem',
         display: 'flex',

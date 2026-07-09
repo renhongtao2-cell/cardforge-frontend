@@ -1,13 +1,15 @@
-﻿import { useState } from "react"
+import { useState } from "react"
+
+const BACKEND = 'https://cardforge-backend-3.onrender.com'
 
 function Pricing() {
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState("")
-  
+
   const tiers = [
     {
       name: "Free",
-      price: "$0",
+      price: "",
       period: "forever",
       features: ["50 cards/month", "Standard quality", "Basic colors", "PNG download"],
       cta: "Get Started",
@@ -16,7 +18,7 @@ function Pricing() {
     },
     {
       name: "Pro",
-      price: "$9.99",
+      price: ".99",
       period: "/month",
       features: ["1,000 cards/month", "HD quality", "Custom branding", "API access", "Batch generation", "No watermark"],
       cta: "Upgrade to Pro",
@@ -25,7 +27,7 @@ function Pricing() {
     },
     {
       name: "Team",
-      price: "$29.99",
+      price: ".99",
       period: "/month",
       features: ["Unlimited cards", "Max quality", "Brand kit", "Priority support", "5 team members", "Custom domain"],
       cta: "Contact Sales",
@@ -33,32 +35,32 @@ function Pricing() {
       tier: "team",
     },
   ]
-  
+
   const handleUpgrade = async (tier) => {
     if (tier === "free") return
     if (tier === "team") {
       alert("Contact us at support@cardforge.io for team plans!")
       return
     }
-    
+
     setLoading(tier)
     setError("")
-    
+
     try {
       const userId = localStorage.getItem("cardforge_user_id") || "user_" + Date.now()
       if (!localStorage.getItem("cardforge_user_id")) {
         localStorage.setItem("cardforge_user_id", userId)
       }
-      
+
       console.log("Creating checkout for tier:", tier, "user:", userId)
-      const res = await fetch("/api/create-checkout?user_id=" + userId + "&tier=" + tier, {
+      const res = await fetch(BACKEND + "/api/create-checkout?user_id=" + userId + "&tier=" + tier, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
       console.log("Response status:", res.status)
       const data = await res.json()
       console.log("Response data:", data)
-      
+
       if (data.checkout_url) {
         window.location.href = data.checkout_url
       } else {
@@ -80,7 +82,7 @@ function Pricing() {
       <p style={{ textAlign: "center", color: "#a0a0b8", marginBottom: "3rem", fontSize: "1.1rem" }}>
         Start free, upgrade when you need more
       </p>
-      
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", maxWidth: "960px", margin: "0 auto" }}>
         {tiers.map((tier, i) => (
           <div key={i} style={{
@@ -110,7 +112,7 @@ function Pricing() {
             <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.5rem" }}>{tier.name}</h3>
             <div style={{ fontSize: "2.5rem", fontWeight: 800, marginBottom: "0.3rem" }}>{tier.price}</div>
             <div style={{ color: "#a0a0b8", fontSize: "0.9rem", marginBottom: "2rem" }}>{tier.period}</div>
-            
+
             <ul style={{ listStyle: "none", padding: 0, marginBottom: "2rem", textAlign: "left" }}>
               {tier.features.map((feat, j) => (
                 <li key={j} style={{ padding: "0.5rem 0", color: "#a0a0b8", fontSize: "0.95rem" }}>
@@ -118,7 +120,7 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            
+
             <button 
               onClick={() => handleUpgrade(tier.tier)}
               disabled={loading !== null || tier.tier === "free"}
@@ -136,7 +138,7 @@ function Pricing() {
             >
               {loading === tier.tier ? "Processing..." : tier.cta}
             </button>
-            
+
             {error && <p style={{ color: "#e94560", marginTop: "1rem", fontSize: "0.9rem" }}>{error}</p>}
           </div>
         ))}
