@@ -4,6 +4,5 @@ export async function GET(request) {
   const backendUrl = backend + url.pathname + url.search;
   const resp = await fetch(backendUrl, { method: request.method, headers: request.headers, body: request.body });
   const data = await resp.json();
-  return NextResponse.json(data);
-}
+  return new Response(JSON.stringify(data), { status: 200, headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
